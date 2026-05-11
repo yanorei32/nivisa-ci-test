@@ -9,19 +9,19 @@ jobs:
     outputs:
       version: ${{ steps.extract_latest_version.outputs.version }}
 
-      steps:
-        - id: extract_latest_version
-          run: |
-            VERSION="$(
-              curl https://www.ni.com/ja/support/downloads/drivers/download.ni-visa.html |
-                grep -Po 'https://download.ni.com/support/nipkg/products/ni-v/ni-visa/.*?/offline/ni-visa_.*?_offline.iso' |
-                sort |
-                tail -n 1 |
-                sed 's_/_ _g' |
-                awk '{ print $8 }'
-            )"
-            echo "latest version: $VERSION"
-            echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+    steps:
+      - id: extract_latest_version
+        run: |
+          VERSION="$(
+            curl https://www.ni.com/ja/support/downloads/drivers/download.ni-visa.html |
+              grep -Po 'https://download.ni.com/support/nipkg/products/ni-v/ni-visa/.*?/offline/ni-visa_.*?_offline.iso' |
+              sort |
+              tail -n 1 |
+              sed 's_/_ _g' |
+              awk '{ print $8 }'
+          )"
+          echo "latest version: $VERSION"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
   main:
     runs-on: windows-2025
