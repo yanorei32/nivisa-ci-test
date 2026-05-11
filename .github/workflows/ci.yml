@@ -36,9 +36,12 @@ jobs:
           echo "Download $env:NI_EXE ($env:NI_VER) from $env:NI_URL"
           Invoke-WebRequest "$env:NI_URL" -OutFile "$env:NI_EXE"
 
-          Start-Process -FilePath "$env:NI_EXE" -ArgumentList "--quiet", "--accept-eulas", "--prevent-reboot" -Wait
+          Start-Process -FilePath "$env:NI_EXE" -ArgumentList "--quiet", "--accept-eulas", "--prevent-reboot"
 
-          dir C:\Windows\System32
+          while ($true) {
+            if (Test-Path "C:\Windows\System32\visa32.dll") {
+              break
+            }
 
-
-
+            Start-Sleep -Seconds 1
+          }
